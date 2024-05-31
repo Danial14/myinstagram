@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:myinstagram/utils/colors.dart';
+import 'package:myinstagram/widgets/image_picker_widget.dart';
 import 'package:myinstagram/widgets/text_field_input.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _bioController = TextEditingController();
   TextEditingController _usernameController = TextEditingController();
+  ValueNotifier<bool> _signupStatus = ValueNotifier<bool>(false);
   @override
   void dispose() {
     // TODO: implement dispose
@@ -38,23 +40,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 64,
               ),
               const SizedBox(height: 64,),
-              Stack(
-                children: [
-                  CircleAvatar(
-                    radius: 64,
-                    backgroundImage: NetworkImage("https://images.unsplash.com/photo-1716831320747-fb77ab9bcd23?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-                  ),
-                  Positioned(child: IconButton(
-                    icon: Icon(Icons.add_a_photo),
-                    onPressed: (){
-
-                    },
-                  ),
-                  bottom: -10,
-                    left: 80,
-                  )
-                ],
-              ),
+              ProfilePic(),
               const SizedBox(height: 24,),
               TextFieldInput(isPass: false,
                 textEditingController: _emailController,
@@ -78,12 +64,24 @@ class _SignupScreenState extends State<SignupScreen> {
               const SizedBox(height: 24,),
               InkWell(
                 onTap: (){
-
+                  _signupStatus.value = true;
                 },
                 child: Container(
                   alignment: Alignment.center,
                   width: double.infinity,
-                  child: const Text("Signup"),
+                  child: ValueListenableBuilder<bool>(
+                    valueListenable: _signupStatus,
+                    builder: (context, status, ch) {
+                      if(status){
+                        return const CircularProgressIndicator(
+                          color: primaryColor,
+                        );
+                      }
+                      else{
+                        return const Text("Signup");
+                      }
+                    }
+                  ),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   decoration: const ShapeDecoration(shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8))
