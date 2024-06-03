@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:myinstagram/screens/home_screen.dart';
+import 'package:myinstagram/screens/signup_screen.dart';
 import 'package:myinstagram/utils/colors.dart';
 import 'package:myinstagram/widgets/text_field_input.dart';
 
@@ -45,7 +47,9 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 24,),
               InkWell(
                 onTap: (){
-
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx){
+                    return HomeScreen();
+                  }));
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -74,7 +78,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   InkWell(
                     onTap: (){
-
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx){
+                        return SignupScreen();
+                      }));
                     },
                     child: Container(
                       child: const Text("Signup",
