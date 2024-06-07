@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:myinstagram/models/user.dart';
 import 'package:myinstagram/providers/user_provider.dart';
 import 'package:myinstagram/utils/colors.dart';
+import 'package:myinstagram/utils/global_variables.dart';
 import 'package:provider/provider.dart';
 
 class MobileScreenLayout extends StatefulWidget {
@@ -27,38 +28,40 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>{
     //User user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       bottomNavigationBar: Platform.isAndroid ? BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         onTap: (page){
-          _pageController.jumpTo(page as double);
+          _pageController.jumpToPage(page);
         },
         backgroundColor: mobileBackgroundColor,
-        items: const [
+        items: [
           BottomNavigationBarItem(icon: Icon(
             Icons.home,
-            color: primaryColor,
+            color: _page == 0 ? primaryColor : secondaryColor,
           ),
             label: "",
           ),
           BottomNavigationBarItem(icon: Icon(
             Icons.search,
-            color: primaryColor,
-          ),
-            label: "",
-          ),
-          BottomNavigationBarItem(icon: Icon(
-            Icons.favorite,
-            color: primaryColor,
-          ),
-            label: "",
-          ),
-          BottomNavigationBarItem(icon: Icon(
-            Icons.person,
-            color: primaryColor,
+            color: _page == 1 ? primaryColor : secondaryColor,
           ),
             label: "",
           ),
           BottomNavigationBarItem(icon: Icon(
             Icons.add_circle_outline,
-            color: primaryColor,
+            color: _page == 2 ? primaryColor : secondaryColor,
+          ),
+            label: "",
+          )
+          ,
+          BottomNavigationBarItem(icon: Icon(
+            Icons.person,
+            color: _page == 3 ? primaryColor : secondaryColor,
+          ),
+            label: "",
+          ),
+          BottomNavigationBarItem(icon: Icon(
+            Icons.favorite,
+            color: _page == 4 ? primaryColor : secondaryColor,
           ),
             label: "",
           )
@@ -70,44 +73,38 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>{
         items: [
           BottomNavigationBarItem(icon: Icon(
             Icons.home,
-            color: primaryColor,
+            color: _page == 0 ? primaryColor : secondaryColor,
           ),
             label: "",
           ),
           BottomNavigationBarItem(icon: Icon(
             Icons.search,
-            color: primaryColor,
-          ),
-            label: "",
-          ),
-          BottomNavigationBarItem(icon: Icon(
-            Icons.favorite,
-            color: primaryColor,
-          ),
-            label: "",
-          ),
-          BottomNavigationBarItem(icon: Icon(
-            Icons.person,
-            color: primaryColor,
+            color: _page == 1 ? primaryColor : secondaryColor,
           ),
             label: "",
           ),
           BottomNavigationBarItem(icon: Icon(
             Icons.add_circle_outline,
-            color: primaryColor,
+            color: _page == 2 ? primaryColor : secondaryColor,
           ),
             label: "",
-          )
+          ),
+          BottomNavigationBarItem(icon: Icon(
+            Icons.person,
+            color: _page == 3 ? primaryColor : secondaryColor,
+          ),
+            label: "",
+          ),
+          BottomNavigationBarItem(icon: Icon(
+            Icons.favorite,
+            color: _page == 4 ? primaryColor : secondaryColor,
+          ),
+            label: "",
+          ),
         ],),
       body: PageView(
         controller: _pageController,
-        children: [
-          Text("feed"),
-          Text("search"),
-          Text("add post"),
-          Text("notification"),
-          Text("profile"),
-        ],
+        children: homeScreenItems,
         onPageChanged: (ind){
           _page = ind;
           setState(() {
