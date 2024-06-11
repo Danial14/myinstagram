@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
@@ -8,18 +11,40 @@ class AddPostScreen extends StatefulWidget {
 }
 
 class _AddPostScreenState extends State<AddPostScreen> {
+  File? imageFile;
+  _selectImage(BuildContext context){
+    showDialog(context: context, builder: (ctx){
+      return SimpleDialog(
+        title: const Text("Create a post"),
+        children: [
+          SimpleDialogOption(
+            padding: EdgeInsets.all(20),
+            child: const Text("Take a photo"),
+            onPressed: () async{
+             XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
+             if(image != null){
+               imageFile = File(image.path);
+               setState(() {
+
+               });
+             }
+            },
+          )
+        ],
+      );
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return /*Center(
+    return imageFile == null ? Center(
       child: IconButton(
         onPressed: (){
-
+          _selectImage(context);
         },
         icon: const Icon(Icons.upload),
       ),
-    );*/
-    Scaffold(
+    ) : Scaffold(
       appBar: AppBar(
         title: Text("Post"),
         leading: IconButton(
@@ -75,7 +100,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     ),
                   ),
                 ),
-              )
+              ),
+              const Divider()
             ],
           )
         ],
